@@ -15,13 +15,13 @@ namespace MouseToJoystick2
         readonly int manualHeight;
 
         // MouseKeyHook stuff
-        private IKeyboardMouseEvents mouseEventHooker = null;
+        private IKeyboardMouseEvents? mouseEventHooker = null;
 
         private int lastX;
         private int lastY;
 
         // vJoy stuff
-        private vJoy joystick = null;
+        private vJoy? joystick = null;
         private readonly uint id;
 
         private readonly long AXIS_MAX;
@@ -97,7 +97,7 @@ namespace MouseToJoystick2
             mouseEventHooker.MouseUp += HandleMouseUp;
         }
 
-        private void HandleMouseDown(object sender, MouseEventArgs e)
+        private void HandleMouseDown(object? sender, MouseEventArgs e)
         {
             uint btnId;
             switch (e.Button)
@@ -118,10 +118,10 @@ namespace MouseToJoystick2
                     return;
             }
 
-            this.joystick.SetBtn(true, this.id, btnId);
+            this.joystick?.SetBtn(true, this.id, btnId);
         }
 
-        private void HandleMouseUp(object sender, MouseEventArgs e)
+        private void HandleMouseUp(object? sender, MouseEventArgs e)
         {
             uint btnId;
             switch (e.Button)
@@ -142,21 +142,23 @@ namespace MouseToJoystick2
                     return;
             }
 
-            this.joystick.SetBtn(false, this.id, btnId);
+            this.joystick?.SetBtn(false, this.id, btnId);
         }
 
-        private void HandleMouseMoveFirst(object sender, MouseEventArgs e)
+        private void HandleMouseMoveFirst(object? sender, MouseEventArgs e)
         {
             this.lastX = e.X;
             this.lastY = e.Y;
 
+            if (mouseEventHooker == null) return;
             mouseEventHooker.MouseMove -= HandleMouseMoveFirst;
             mouseEventHooker.MouseMove += HandleMouseMove;
         }
 
-        private void HandleMouseMove(object sender, MouseEventArgs e)
+        private void HandleMouseMove(object? sender, MouseEventArgs e)
         {
-            var bounds = Screen.PrimaryScreen.Bounds;
+            if (joystick == null) return;
+            var bounds = Screen.PrimaryScreen?.Bounds ?? new Rectangle(0, 0, 0, 0);
 
             var minX = bounds.Left;
             var maxX = this.autoSize ? bounds.Right : (bounds.Left + this.manualWidth);
