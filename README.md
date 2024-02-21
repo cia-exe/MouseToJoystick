@@ -10,7 +10,8 @@ I wrote this so that I could play the 1998 win32 version of Tie Fighter without 
 How to use it
 ===============
 1. Compile from source or download the binary (may require .Net Framework install/update)
-1. Install the vJoy virtual joystick driver (http://vjoystick.sourceforge.net)
+1. Install the vJoy virtual joystick driver (http://vjoystick.sourceforge.net)  
+   For Win10 & Win11 (https://github.com/BrunnerInnovation/vJoy)
 1. Run MouseToJoystick
 1. Enjoy using your mouse as a joystick by playing a game (e.g. Tie Fighter).
 
