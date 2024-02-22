@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Forms;
 using vJoyInterfaceWrap;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace MouseToJoystick2
 {
@@ -92,58 +93,29 @@ namespace MouseToJoystick2
 
             // Register for mouse events
             mouseEventHooker = Hook.GlobalEvents();
-            mouseEventHooker.MouseMove += HandleMouseMove;
+            mouseEventHooker.MouseMove += HandleMouseMoveFirst;
             mouseEventHooker.MouseDown += HandleMouseDown;
             mouseEventHooker.MouseUp += HandleMouseUp;
         }
 
-        private void HandleMouseDown(object? sender, MouseEventArgs e)
+        private void HandleMouseButton(MouseEventArgs e, bool down)
         {
-            uint btnId;
-            switch (e.Button)
+            uint btnId = e.Button switch
             {
-                case MouseButtons.Left:
-                    btnId = VJOY_BTN_1;
-                    break;
+                MouseButtons.Left => VJOY_BTN_1,
+                MouseButtons.Right => VJOY_BTN_2,
+                MouseButtons.Middle => VJOY_BTN_3,
+                MouseButtons.XButton1 => 4, // backward
+                MouseButtons.XButton2 => 5, // foreward
+                _ => 0,
+            };
 
-                case MouseButtons.Right:
-                    btnId = VJOY_BTN_2;
-                    break;
-
-                case MouseButtons.Middle:
-                    btnId = VJOY_BTN_3;
-                    break;
-
-                default:
-                    return;
-            }
-
-            this.joystick?.SetBtn(true, this.id, btnId);
+            if (btnId > 0) joystick?.SetBtn(down, id, btnId);
         }
 
-        private void HandleMouseUp(object? sender, MouseEventArgs e)
-        {
-            uint btnId;
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    btnId = VJOY_BTN_1;
-                    break;
+        private void HandleMouseDown(object? sender, MouseEventArgs e) => HandleMouseButton(e, true);
 
-                case MouseButtons.Right:
-                    btnId = VJOY_BTN_2;
-                    break;
-
-                case MouseButtons.Middle:
-                    btnId = VJOY_BTN_3;
-                    break;
-
-                default:
-                    return;
-            }
-
-            this.joystick?.SetBtn(false, this.id, btnId);
-        }
+        private void HandleMouseUp(object? sender, MouseEventArgs e) => HandleMouseButton(e, false);
 
         private void HandleMouseMoveFirst(object? sender, MouseEventArgs e)
         {

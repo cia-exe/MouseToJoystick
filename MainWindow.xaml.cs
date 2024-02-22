@@ -8,7 +8,7 @@ namespace MouseToJoystick2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MouseToJoystickHandler handler = null;
+        private MouseToJoystickHandler? handler = null;
 
         public MainWindow()
         {
