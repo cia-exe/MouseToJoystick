@@ -1,5 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
+
+using MouseHandler = MouseToJoystick2.MouseToJoystickHandler;
+
 
 namespace MouseToJoystick2
 {
@@ -8,11 +12,27 @@ namespace MouseToJoystick2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MouseToJoystickHandler? handler = null;
+        private MouseHandler? handler = null;
 
         public MainWindow()
         {
             InitializeComponent();
+            //Closing += OnWindowClosing;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Release();
+            base.OnClosing(e);
+        }
+
+        private void Release()
+        {
+            if (this.handler != null)
+            {
+                this.handler.Dispose();
+                this.handler = null;
+            }
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -26,7 +46,7 @@ namespace MouseToJoystick2
                 int manualHeight = Convert.ToInt32(model.ScreenHeight);
                 try
                 {
-                    handler = new MouseToJoystickHandler(deviceId, model.InvertX, model.InvertY, model.AutoCenter, model.AutoScreenSize, manualWidth, manualHeight);
+                    handler = new MouseHandler(deviceId, model.InvertX, model.InvertY, model.AutoCenter, model.AutoScreenSize, manualWidth, manualHeight);
                     model.SettingsEnabled = false;
                 }
                 catch (Exception err)
@@ -38,11 +58,7 @@ namespace MouseToJoystick2
             }
             else
             {
-                if (this.handler != null)
-                {
-                    this.handler.Dispose();
-                    this.handler = null;
-                }
+                Release();
                 model.SettingsEnabled = true;
             }
         }
