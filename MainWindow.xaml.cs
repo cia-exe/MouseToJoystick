@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 
-using MouseHandler = MouseToJoystick2.MouseToJoystickHandler;
+using MouseHandler = MouseToJoystick2.MouseToJoystickFps;
 
 
 namespace MouseToJoystick2
@@ -16,6 +17,7 @@ namespace MouseToJoystick2
 
         public MainWindow()
         {
+            Debug.WriteLine($"{Cia.Exe.Util.Tid()} init()");
             InitializeComponent();
             //Closing += OnWindowClosing;
         }
@@ -46,7 +48,8 @@ namespace MouseToJoystick2
                 int manualHeight = Convert.ToInt32(model.ScreenHeight);
                 try
                 {
-                    handler = new MouseHandler(deviceId, model.InvertX, model.InvertY, model.AutoCenter, model.AutoScreenSize, manualWidth, manualHeight);
+                    handler = new MouseHandler(deviceId);
+                    //handler = new MouseHandler(deviceId, model.InvertX, model.InvertY, model.AutoCenter, model.AutoScreenSize, manualWidth, manualHeight);
                     model.SettingsEnabled = false;
                 }
                 catch (Exception err)

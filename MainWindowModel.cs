@@ -12,7 +12,9 @@ namespace MouseToJoystick2
         public bool? ShouldRun { get; set; } = false;
         public bool AutoScreenSize { get; set; } = true;
         public string ScreenWidth { get; set; } = "640";
+                                                  // System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width.ToString();
         public string ScreenHeight { get; set; } = "480";
+                                                  // System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height.ToString();
         public bool AutoCenter { get; set; } = true;
         public bool SettingsEnabled { get { return settingsEnabled; } set { settingsEnabled = value; NotifyPropertyChanged(); } }
 
