@@ -1,8 +1,5 @@
 ﻿using Gma.System.MouseKeyHook;
-using System;
-using System.Windows.Forms;
 using vJoyInterfaceWrap;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace MouseToJoystick2
 {

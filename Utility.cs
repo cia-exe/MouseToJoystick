@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Collections.Generic;
-using static System.DateTimeOffset;
+﻿using static System.DateTimeOffset;
 using System.Diagnostics;
 
 namespace Cia.Exe
